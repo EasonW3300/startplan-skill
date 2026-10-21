@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "write_policies": {
+    "plan-readonly": {
+      "allow_tools": [
+        "Read",
+        "Glob",
+        "Grep",
+        "LSP",
+        "Skill",
+        "SkillSearch",
+        "ToolSearch",
+        "ToolLoad",
+        "AskUserQuestion",
+        "Workflow",
+        "EnterPlanMode",
+        "MemoryRead",
+        "MemorySearch",
+        "ListMcpResourcesTool",
+        "ReadMcpResourceTool",
+        "WebFetch",
+        "WebSearch"
+      ]
+    }
+  },
+  "routes": [
+    {
+      "id": "plan",
+      "description": "Ground the request, close material decisions, produce a complete plan, and wait for an explicit handoff.",
+      "steps": [
+        {
+          "id": "planning",
+          "description": "Ground, clarify, design, and present the plan without changing the target environment.",
+          "instructions": "Use the startplan-core Ground, Intent, and Implementation phases. Read before asking; ask only about material undiscoverable choices. Before presenting exactly one complete <proposed_plan> block, complete this step with outcome plan_ready and concrete evidence. Never implement during this step.",
+          "write_policy": "plan-readonly",
+          "transitions": {
+            "manual": {
+              "plan_ready": "completed",
+              "cancelled": "cancelled"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
